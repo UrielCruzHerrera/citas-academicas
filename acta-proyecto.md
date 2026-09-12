@@ -156,7 +156,9 @@ Estudiante puede cancelar → bloque vuelve a DISPONIBLE
 
 | Integrante | Contribución |
 | :--- | :--- |
-| Uriel Cruz Herrera | Diseño del modelo de datos, implementación de DAOs con transacciones, servlets del flujo principal, vistas JSP con JSTL, scripts SQL, README y evidencia documental. |
+| Uriel Cruz Herrera | Diseño del modelo de datos, implementación de DAOs con transacciones,
+| Erick Romero García |servlets del flujo principal, vistas JSP con JSTL, 
+| Josue Sanchez Valente |scripts SQL, README y evidencia documental. |
 
 ---
 
