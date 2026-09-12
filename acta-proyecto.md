@@ -134,12 +134,12 @@ Estudiante puede cancelar → bloque vuelve a DISPONIBLE
 
 | CA | Descripción | Estado |
 | :--- | :--- | :---: |
-| CA01 | Flujo completo desde base sintética con cambio persistido. | ✅ Cumplido |
-| CA02 | Caso inválido rechazado sin alterar la BD. | ✅ Cumplido |
-| CA03 | Respuesta coherente con estados HTTP correctos (302 en éxito, mensaje en error). | ✅ Cumplido |
+| CA01 | Flujo completo desde base sintética con cambio persistido. | Cumplido |
+| CA02 | Caso inválido rechazado sin alterar la BD. | Cumplido |
+| CA03 | Respuesta coherente con estados HTTP correctos (302 en éxito, mensaje en error). | Cumplido |
 | CA04 | Evento IoT simulado (se abordará en Web 4.0). | ⏳ Pendiente por etapa |
-| CA05 | Otra persona puede reproducir el incremento mediante README. | ✅ Cumplido |
-| CA06 | Autoría, contribución individual y limitaciones documentadas. | ✅ Cumplido |
+| CA05 | Otra persona puede reproducir el incremento mediante README. | Cumplido |
+| CA06 | Autoría, contribución individual y limitaciones documentadas. | Cumplido |
 
 ---
 
