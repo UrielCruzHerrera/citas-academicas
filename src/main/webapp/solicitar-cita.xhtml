@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      lang="es">
+<f:metadata>
+    <f:viewAction action="#{solicitudCitaBean.inicializar}" onPostback="false" />
+</f:metadata>
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solicitar cita — Citas académicas</title>
+</h:head>
+<h:body>
+    <h1>Solicitar cita académica</h1>
+    <h:form id="solicitudForm">
+        <p:messages id="mensajes" showDetail="false" closable="true" />
+        <p:panel id="resumen" header="Horario seleccionado"
+                 rendered="#{not empty solicitudCitaBean.horario}">
+            <p><strong>Asesor: </strong><h:outputText value="#{solicitudCitaBean.horario.asesor}" /></p>
+            <p><strong>Fecha: </strong>
+                <h:outputText value="#{solicitudCitaBean.horario.fecha}">
+                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p>
+            <p><strong>Hora de inicio: </strong>
+                <h:outputText value="#{solicitudCitaBean.horario.horaInicio}">
+                    <f:convertDateTime type="localTime" pattern="HH:mm" />
+                </h:outputText>
+            </p>
+            <p><strong>Hora de fin: </strong>
+                <h:outputText value="#{solicitudCitaBean.horario.horaFin}">
+                    <f:convertDateTime type="localTime" pattern="HH:mm" />
+                </h:outputText>
+            </p>
+        </p:panel>
+        <p:panel id="formulario" header="Motivo de la cita" rendered="#{solicitudCitaBean.puedeSolicitar}">
+            <p:outputLabel for="motivo" value="Motivo" />
+            <p:selectOneMenu id="motivo" value="#{solicitudCitaBean.idMotivo}"
+                             required="true" requiredMessage="Selecciona un motivo para la cita."
+                             converterMessage="Selecciona un motivo válido de la lista."
+                             validatorMessage="Selecciona un motivo activo de la lista.">
+                <f:selectItem itemLabel="Selecciona un motivo" itemValue="0" noSelectionOption="true" />
+                <f:selectItems value="#{solicitudCitaBean.motivos}" var="motivo"
+                               itemValue="#{motivo.id}" itemLabel="#{motivo.nombre}" />
+                <f:validateLongRange minimum="1" />
+            </p:selectOneMenu>
+            <p:commandButton id="solicitar" value="Solicitar cita"
+                             action="#{solicitudCitaBean.solicitar}" process="@form" update="@form" />
+        </p:panel>
+        <p:panel id="confirmacion" header="Solicitud registrada" rendered="#{solicitudCitaBean.idCitaCreada gt 0}">
+            <p>Tu cita quedó registrada con el folio <h:outputText value="#{solicitudCitaBean.idCitaCreada}" />.</p>
+        </p:panel>
+    </h:form>
+    <p:button value="Volver a horarios" outcome="horarios" />
+</h:body>
+</html>

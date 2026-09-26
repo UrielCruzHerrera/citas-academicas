@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      lang="es">
+<f:metadata>
+    <f:viewAction action="#{misCitasBean.cargar}" onPostback="false" />
+</f:metadata>
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mis citas — Citas académicas</title>
+</h:head>
+<h:body>
+    <h1>Mis citas</h1>
+    <h:form id="citasForm">
+        <p:messages id="mensajes" showDetail="false" closable="true" />
+        <p:commandButton id="actualizar" value="Actualizar citas"
+                         action="#{misCitasBean.cargar}" process="@this" update="@form" />
+        <p:dataTable id="tabla" value="#{misCitasBean.citas}" var="cita"
+                     emptyMessage="#{misCitasBean.errorCarga ? 'La consulta no está disponible temporalmente.' : 'No tienes citas registradas.'}">
+            <p:column headerText="Asesor">
+                <h:outputText value="#{cita.asesor}" />
+            </p:column>
+            <p:column headerText="Fecha">
+                <h:outputText value="#{cita.fecha}">
+                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Horario">
+                <h:outputText value="#{cita.horaInicio}">
+                    <f:convertDateTime type="localTime" pattern="HH:mm" />
+                </h:outputText>
+                <h:outputText value=" a " />
+                <h:outputText value="#{cita.horaFin}">
+                    <f:convertDateTime type="localTime" pattern="HH:mm" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Motivo">
+                <h:outputText value="#{cita.motivo}" />
+            </p:column>
+            <p:column headerText="Estado">
+                <h:outputText value="#{cita.estado}" />
+            </p:column>
+            <p:column headerText="Acción">
+                <p:commandButton id="cancelar" value="Cancelar cita"
+                                 rendered="#{misCitasBean.puedeCancelar(cita)}"
+                                 action="#{misCitasBean.cancelar(cita)}"
+                                 process="@this" update=":citasForm" />
+            </p:column>
+        </p:dataTable>
+    </h:form>
+    <p:button value="Consultar horarios" outcome="horarios" />
+    <p:button value="Volver al inicio" outcome="index" />
+</h:body>
+</html>

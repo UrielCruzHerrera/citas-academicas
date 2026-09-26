@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      lang="es">
+<f:metadata>
+    <f:viewAction action="#{horarioBean.cargar}" onPostback="false" />
+</f:metadata>
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Horarios disponibles — Citas académicas</title>
+</h:head>
+<h:body>
+    <h1>Horarios disponibles</h1>
+    <p>Consulta los horarios y selecciona uno. Esta selección no reserva una cita.</p>
+    <h:form id="horariosForm">
+        <p:messages id="mensajes" showDetail="true" closable="true" />
+        <h:panelGroup id="estadoCarga" layout="block">
+            <p:staticMessage severity="error" rendered="#{horarioBean.errorCarga}"
+                summary="No pudimos cargar los horarios. Inténtalo nuevamente en unos momentos." />
+        </h:panelGroup>
+        <p:commandButton id="actualizar" value="Actualizar horarios"
+                         action="#{horarioBean.cargar}" process="@this" update="@form" />
+        <p:dataTable id="tabla" value="#{horarioBean.disponibilidades}" var="horario"
+                     emptyMessage="#{horarioBean.errorCarga ? 'La consulta no está disponible temporalmente.' : 'No hay horarios disponibles por el momento.'}">
+            <p:column headerText="Asesor">
+                <h:outputText value="#{horario.asesor}" />
+            </p:column>
+            <p:column headerText="Fecha">
+                <h:outputText value="#{horario.fecha}">
+                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Hora inicio">
+                <h:outputText value="#{horario.horaInicio}">
+                    <f:convertDateTime type="localTime" pattern="HH:mm" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Hora fin">
+                <h:outputText value="#{horario.horaFin}">
+                    <f:convertDateTime type="localTime" pattern="HH:mm" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Selección">
+                <p:commandButton id="seleccionar" value="Seleccionar horario"
+                    action="#{horarioBean.seleccionar(horario)}"
+                    process="@this" update=":horariosForm:mensajes :horariosForm:seleccion" />
+            </p:column>
+        </p:dataTable>
+        <h:panelGroup id="seleccion" layout="block" aria-live="polite">
+            <p:panel header="Horario seleccionado" rendered="#{not empty horarioBean.horarioSeleccionado}">
+                <h:outputText value="#{horarioBean.horarioSeleccionado.asesor}" />
+                <h:outputText value=" — " />
+                <h:outputText value="#{horarioBean.horarioSeleccionado.fecha}">
+                    <f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+                </h:outputText>
+                <h:outputText value=" — " />
+                <h:outputText value="#{horarioBean.horarioSeleccionado.horaInicio}">
+                    <f:convertDateTime type="localTime" pattern="HH:mm" />
+                </h:outputText>
+                <h:outputText value=" a " />
+                <h:outputText value="#{horarioBean.horarioSeleccionado.horaFin}">
+                    <f:convertDateTime type="localTime" pattern="HH:mm" />
+                </h:outputText>
+                <p:button id="continuarSolicitud" value="Continuar con la solicitud"
+                          outcome="solicitar-cita">
+                    <f:param name="id" value="#{horarioBean.horarioSeleccionado.id}" />
+                </p:button>
+            </p:panel>
+        </h:panelGroup>
+    </h:form>
+    <p:button value="Volver al inicio" outcome="index" />
+</h:body>
+</html>
